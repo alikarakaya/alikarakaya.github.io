@@ -3,7 +3,7 @@ Postgresql'de pg_dump ile almış olduğunuz yedekleri pg_restore ile açmak iç
 ilk önce hangi user'ı kullanacağımız belirleyip yada oluşturup daha sonra bu 
 user'a  pg_hba.conf dosyasında yetkilendirme yapılması gerekiyor.
 
-***pg_restore -U postgres -Fc backup.bak -d databasename***
+>***pg_restore -U postgres -Fc backup.bak -d databasename***
 
 Eğer pg_hba.conf dosyasında yetkilendirme işleminde postgresql user'ına 
 
