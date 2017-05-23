@@ -15,3 +15,7 @@ Eğer pg_hba.conf dosyasında yetkilendirme işleminde postgresql user'ına
 
 yetkisi verilmemişse yada md5 yerine peer yazıyorsa yetki problemi olacaktır.
 
+Hata olarak 
+
+pg_restore: [archiver (db)] connection to database "databasename" failed: 
+FATAL: Peer authentication failed for user "postgres"
