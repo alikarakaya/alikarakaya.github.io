@@ -1,0 +1,21 @@
+## ArchLinux da zip unzip kullanımı. ##
+
+archlinux paket kurulumu için bu komutlar kullanılır.
+
+```commandline
+pacman -S zip
+```
+```commandline
+pacman -S unzip
+```
+Kullanımı ise basit olarak anlatmak gerekirse komutu yazıp daha sonra oluşacak zip dosyasının adını veriyorsunuz son olarak da sıkıştırmak istediginiz dosyanın adını 
+yazıyorsunuz.
+
+```commandline
+zip test.zip arşiv.xls
+```
+Daha önceden sıkıştırılan dosyayı açmak için ise
+
+```commandline
+unzip test.zip
+```
