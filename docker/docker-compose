@@ -57,5 +57,67 @@ ubuntu-ping_1  | 64 bytes from 8.8.4.4: icmp_seq=0 ttl=53 time=26.767 ms
 ubuntu-ping_1  | 64 bytes from 8.8.4.4: icmp_seq=1 ttl=53 time=20.757 ms
 
 
+Docker compose ile ilgili bir örnek daha yapalım bu örnekte iki tane servisimiz olsun.
+
+docker-compose.yml dosyasına yeni bir servis ekeleyelim
+
+version: "2"
+
+services:
+
+   ubuntu-ping:
+      image: ali/ping 
+      command: ping 8.8.4.4
+
+   web-server: --> ikinci servisin adı
+      image: nginx --> nginx imagi kullanılıyor
+      ports:
+        - "8080:80"  --> port olarak 8080 e yonlendiriliyor.
+
+
+Not compose dosyasından sadece bir serviside ayaga kaldıra biliriz. 
+Örnek :
+
+# docker-compose up web-server                                                                                                                                      
+Pulling web-server (nginx:latest)...
+latest: Pulling from library/nginx
+94ed0c431eb5: Pull complete
+9406c100a1c3: Pull complete
+aa74daafd50c: Pull complete
+Digest: sha256:788fa27763db6d69ad3444e8ba72f947df9e7e163bad7c1f5614f8fd27a311c3
+Status: Downloaded newer image for nginx:latest
+Creating test_web-server_1 ... 
+Creating test_web-server_1 ... done
+Attaching to test_web-server_1
+web-server_1   | 172.20.0.1 - - [02/Aug/2017:12:12:40 +0000] "GET / HTTP/1.1" 200 612 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) 
+Chrome/60.0.3112.78 Safari/537.36" "-"
+
+Oluşan containerları listelemek içim
+# docker-compose ps                                                                                                                                                 
+[sudo] password for ali: 
+       Name                Command           State     Ports
+------------------------------------------------------------
+test_ubuntu-ping_1   ping 8.8.4.4           Exit 137        
+test_web-server_1    nginx -g daemon off;   Exit 0    
+
+Bu kontainerları silmek için ise
+# docker-compose down -v                                                                                                                                             
+Removing test_web-server_1  ... done
+Removing test_ubuntu-ping_1 ... done
+Removing network test_default
+
+
+
+DOCKER-COMPOSE DEGISKENLER
+
+version: 2 olmak zorunda
+services: servis oldugunu belirtiyoruz bunun valume var network u var.
+build:Docker image elde etmek icin build edilecek
+context: aslında root directory gibi nerden başlayacagınız belirtiyorsunuz ./app klasorunden başla diyor. context ./app
+dockerfile: context verilmişse bu context e göre yol veriyorsunuz. ./Dockerfile
+port: hostaki 8080 al kontainer daki 8080 post 8080:8080  yonlendir.
+restart: Container çıktıkça yeniden başlat. restart: always
+
+Not: Eğer bir config vereceksem hazır image kullanmıyorum compose u build yapıyorum
 
 
