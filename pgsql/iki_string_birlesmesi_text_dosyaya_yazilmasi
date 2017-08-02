@@ -1,0 +1,3 @@
+COPY (select CONCAT('''',CONCAT(id , ''',')) from core_keyvalue where 
+entity_type_id = 28 and status = '0') TO '/tmp/ali1.txt';
+
