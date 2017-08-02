@@ -1,0 +1,61 @@
+--Docker compose--
+Birden fazla servislerimiz var bu servislere baglı olan containerlarımız var.
+Daha önce hazırladıgımız docker file için bir compose yazalım.
+dosya adı docker-compose.yml
+
+version: "2"
+
+services:
+
+   ubuntu-ping:
+      build: --> imajı bulid edecegini soyluyor
+         context: . --> nokta bulundugu klasor 
+         dockerfile: ./Dockerfile --> bu klasordeki dockerfile ı kullanacak
+      command: ping 8.8.4.4  --> docerfilede daki komutu ezerek bu komutu çalıştur diyor (docker file da yapılması gereken baska is vardı)
+
+Bu dosyayı çalıştırmak için 
+
+#docker-compose up  --> bu komut yml uzantılı dosyayı çalıştırıyor.
+
+> $ sudo docker-compose up                                                                                                                                                 
+Recreating test_ubuntu-ping_1 ... 
+Recreating test_ubuntu-ping_1 ... done
+Attaching to test_ubuntu-ping_1
+ubuntu-ping_1  | PING 8.8.4.4 (8.8.4.4): 56 data bytes
+ubuntu-ping_1  | 64 bytes from 8.8.4.4: icmp_seq=0 ttl=53 time=17.921 ms
+ubuntu-ping_1  | 64 bytes from 8.8.4.4: icmp_seq=1 ttl=53 time=16.969 ms
+ubuntu-ping_1  | 64 bytes from 8.8.4.4: icmp_seq=2 ttl=53 time=16.764 ms
+
+
+Aynı docker conteynerlara baktıgımız gibi bunada bakabiliyoruz
+> $ sudo docker-compose ps     --> ps komutuda burda kullanılıyor.                                                                                                                                            
+       Name            Command       State     Ports
+----------------------------------------------------
+test_ubuntu-ping_1   ping 8.8.4.4   Exit 137    
+
+# docker ps -a --> komutu ile baktıgımızda docker compose konteynerla işi bitiyor ve atıyor.
+
+Eger imaj varsa build etmeden kullana bilriz.
+
+version: "2"
+
+services:
+
+   ubuntu-ping:
+      image: ali/ping --> var olan bir image kullandık.	
+      command: ping 8.8.4.4
+
+
+
+> $ sudo docker-compose up                                                                                                                                                 
+[sudo] password for ali: 
+Recreating test_ubuntu-ping_1 ... 
+Recreating test_ubuntu-ping_1 ... done
+Attaching to test_ubuntu-ping_1
+ubuntu-ping_1  | PING 8.8.4.4 (8.8.4.4): 56 data bytes
+ubuntu-ping_1  | 64 bytes from 8.8.4.4: icmp_seq=0 ttl=53 time=26.767 ms
+ubuntu-ping_1  | 64 bytes from 8.8.4.4: icmp_seq=1 ttl=53 time=20.757 ms
+
+
+
+

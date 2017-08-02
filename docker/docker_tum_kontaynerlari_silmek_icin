@@ -1,0 +1,3 @@
+Docker da listelenen tum kontaynerları silmek icin asagidaki komut kullanilir.
+
+sudo docker rm -f  $(sudo docker ps -a -q)  

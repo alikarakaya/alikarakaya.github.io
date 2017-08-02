@@ -1,0 +1,7 @@
+Docker da silinen konteynerların volume larını silmek icin asagidaki komut komut kullanılır. 
+
+list volumes:
+docker volume ls -f dangling=true
+
+remove volumes :
+docker volume rm $(docker volume ls -f dangling=true -q)

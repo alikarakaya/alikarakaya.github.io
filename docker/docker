@@ -1,0 +1,206 @@
+Docker bir proces olarak çalışıyor.
+
+#docker run ubuntu
+Bu komutta ubuntu image i çalışıyor bu çalışma sonrasında 
+
+> $ sudo docker ps -a                                                                                                                                                      
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES
+90166e106065        ubuntu              "/bin/bash"         15 seconds ago      Exited (0) 14 seconds ago                       romantic_babbage
+
+command kısmında bu image bin/bash komutunu çalıştırıp işini bitiriyor yani bir komut girmedigimizden bunu yapıyor.
+
+Aşagıdaki komutu çalıştırdıgımızda ise 
+
+> $ sudo docker run ubuntu ls -lrt /lib  --> ubunutu makinasında lib klasorunde ls komutu ile bakıyoruz.                                                                                                                                    
+total 24
+drwxr-xr-x 15 root root 4096 Feb 19  2016 terminfo
+drwxr-xr-x  2 root root 4096 Jul 10 18:56 init
+drwxr-xr-x  8 root root 4096 Jul 10 18:56 systemd
+drwxr-xr-x  3 root root 4096 Jul 10 18:56 udev
+drwxr-xr-x  3 root root 4096 Jul 10 18:56 lsb
+drwxr-xr-x  3 root root 4096 Jul 10 18:56 x86_64-linux-gnu
+
+> $ sudo docker ps -a                                                                                                                                                      
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS               NAMES
+576d20ca58f5        ubuntu              "ls -lrt /lib"      4 minutes ago       Exited (0) 4 minutes ago                       reverent_shaw
+
+command kısmında görüldügü gibi image verilen komut çalışıyor.
+
+
+Docker containerları silme için 
+
+#docker rm <CONTAINER ID>
+
+Hepsini silmek için
+
+#docker rm $(docker ps -aq)  --> docker ps -aq parametresi ile CONTAINER ID lerini alıyoruz.
+
+Eğer docker container'ı çalıştırıp işini bitirip çöpe at diyorsam aşagıdaki komutu yazmam lazım.
+
+#docker run --rm ubuntu ls -ltrh /lib --> -rm parametresi docker containerı siliyor.
+
+> $ sudo docker run --rm ubuntu ls /lib                                                                                                                                     
+
+
+init
+lsb
+systemd
+terminfo
+udev
+x86_64-linux-gnu
+                                                                                                                                                                            
+ali@archlinux ~                                                                                                                                                  
+[10:09:30] 
+> $ sudo docker ps -a                                                                                                                                                      
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+  
+
+Docker imageında çalışması için bir container ayaga kalkar ve çalışır orda anlanlı ya anlamsız bir komut olması önemli degil.
+
+docker run ubuntu xyz
+container_linux.go:262: starting container process caused "exec: \"xyz\": executable file not found in $PATH"
+docker: Error response from daemon: oci runtime error: container_linux.go:262: starting container process caused "exec: \"xyz\": executable file not found in 
+$PATH".
+ERRO[0000] error waiting for container: context canceled 
+
+Container oluşuyor mutlaka
+
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+0de4f9de5b48        ubuntu              "xyz"               31 seconds ago      Created                                 vigilant_montalcini
+
+
+-- VALUME--
+
+Docker valume containerladan bagımsız yaşam dongusu container silinse bile volume silinmiyor örnek olarak bir database in valume munu tanımlıyorsunuz
+container silseniz bile tanımıladıgınız valume duruyor çünkü valume ile containerlar bagımsız.
+
+--DOCKERFILE--
+
+FROM : Hali hazırdaki image kullanmak için 
+MAINYANER : yeni bir image oluşturuyorum
+RUN : komutları çalıştırıyorum built edilirken çalışıyor
+COPY : kendi hostumdan image ın içine dosya kopyalıyorum.
+WORKDIR : 
+ENTYRPOINT: Bu docker imagedan bir container oluştur sadece bunu çalıştır .. ["/...sh"] SADECE BİR KOMUT CALISIYOR (bir imajım var sadece o komut çalışacak)
+CMD : ENTRYTPOINT asıl komutunuz argumanları CMD ile veriyoruz. RUN Dan farkı CMD imajdan kontayner oluşturulken çalıştırılıyor birtane olması mantıklı. 
+
+--CONTAINER LIFECYCLE--
+
+Docker conyaier ı pause etmek için
+
+#docker pause CONTAINER_ID
+
+çalıştırmak için
+
+#docker unpause CONTAINER_ID
+
+Neden duraklatıyoruz herhahngi bir yerden atak yiyiorumdur valuem çok yer yiyiordur.
+
+Containerı öldürmek için
+
+#docker kill CONTAINER_ID
+
+Container ı tekrar çalıştırmak için
+
+#docker start CONTAINER_ID
+
+çalışıyor fakat görünmüyorsa docker ps  ile baktıgımızda çalışıtor deamon olarak çalışıyor bacround da çalıyot 
+terminale birşey düşürmüyor arka planda çaşıyor onu görmek içinde (çünkü hangi terminalde çalışmadıgını bilemiyor)
+
+#docker logs CONTAINER_ID  --> bu komut ile deamon da çalışan containerları görüyoruz.
+
+-d komutunu kullanırdak deamon modda çalışiyor. arka planda çalışmasını saglıyoruz.
+
+--DOCKER KOMUTLAR
+
+-i interaktif 
+-t terminal 
+
+
+Çalışmayan bir container ı çalıştırım içine girdik.
+#docker run -it ubuntu /bin/bash --> hemen çıkmaması için bash te kalmasını istiyoeum onun için /bin/bash diyorum.
+
+
+root@5ed33ead5e9f:/# uname
+Linux
+root@5ed33ead5e9f:/# ps ef
+  PID TTY      STAT   TIME COMMAND
+    1 pts/0    Ss     0:00 /bin/bash PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin HOSTNAME=5ed33ead5e9f TERM=xterm HOME=/root
+   14 pts/0    R+     0:00 ps ef HOSTNAME=5ed33ead5e9f TERM=xterm 
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=0
+root@5ed33ead5e9f:/# 
+
+
+Çalışan bir container ın içine girmek istesek
+#docker exec -it CONTAINER_ID /bin/bash
+
+--DOCKER IMAGES---
+Basit bir dockerfile oluşturalım 8.8.8.8 ip sine devamlı ping atacak
+
+FROM ubuntu --> ubuntu imaginı kullacanak
+
+MAINTAINER Ali Karakaya <malikarakaya@gmail.com> yeni bir imaj olusturdugum için bilgikerimi yazıyorum
+
+RUN apt-get update -- ubuntuyu update eden komutu yazıyorum
+
+RUN apt-get install -y inetutils-ping --> ping için paketi yukluyorum -y parametresi ile cünkü soru sormasın diye.
+
+CMD ["ping 8.8.8.8] --> çalışacak komut CMD yada ENTRYPOIN de olabilri. 
+
+
+Dockerfile olarka kaydediyoruz
+
+# docker build -t ali/ping .  --> imajı olusturuyoruz -t ile TAG ekliyorum.
+
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ali/ping            latest              fbe1476257aa        6 minutes ago       164MB
+
+Olusturdugumuz kendi imajımızı ping atan çalıştırmak için
+
+#docker run ali/ping  --> bu komutu yazıyoruz.
+
+Postgresql imajını çalıştırıyoruz
+
+# docker run --name alipg -e POSTGRES_PASSWORD=secret postgres --> eger var olan bir imaj kullanacaksak postgres yerine postgres 9.4 diye biliriz
+Komut çalışıtor 
+
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+ae53211caa89        postgres            "docker-entrypoint..."   2 minutes ago       Up 2 minutes        5432/tcp            alipg
+
+O porta ulaşmak için telnet ten baglantı kurmaya çalışıyoruz
+
+> $ telnet localhost 5432                                                           
+Trying ::1...
+Connection failed: Connection refused
+Trying 127.0.0.1...
+telnet: Unable to connect to remote host: Connection refused
+
+Çalışmaz çünkü postgres portu dışarıya açık degil.
+
+# sudo docker run --name alipg -p 5432:5432 -e POSTGRES_PASSWORD=secret postgres --> port veriyoruz. -p parametresi ile
+
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                    NAMES
+586a2260d90f        postgres            "docker-entrypoint..."   About a minute ago   Up About a minute   0.0.0.0:5432->5432/tcp   alipg
+
+Burdaki PORTS'a dikkat edelim nerden gelirse gelsin 5432 ye yonlendirlecek.
+
+
+                
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+

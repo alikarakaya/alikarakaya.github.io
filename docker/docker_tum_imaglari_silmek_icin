@@ -1,0 +1,3 @@
+Docker da tum imageslari silmek icin kullanilan komut.
+
+sudo docker rmi -f  $(sudo docker images -q) 

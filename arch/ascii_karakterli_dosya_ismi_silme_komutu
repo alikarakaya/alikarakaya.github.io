@@ -1,0 +1,12 @@
+Eger bir dosya ascii karakterle başlıyorsa
+
+**file
+-file
+--file 
+*^+file 
+
+Şeklinde bu dosyları şu şekilde silmemiz gerek.
+
+$ rm -v ./-file
+sudo rm -v ./-T
+

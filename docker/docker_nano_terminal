@@ -1,0 +1,11 @@
+Docker konteynerda nano'yu kurup herhangi bir dosyanin icine girmek istedifimizde
+
+hata:
+Error opening terminal: unknown.
+
+Bu hatayı gidermek icin 
+
+komutu:
+export TERM=xterm
+
+
