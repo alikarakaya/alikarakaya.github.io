@@ -117,7 +117,10 @@ context: aslında root directory gibi nerden başlayacagınız belirtiyorsunuz .
 dockerfile: context verilmişse bu context e göre yol veriyorsunuz. ./Dockerfile
 port: hostaki 8080 al kontainer daki 8080 post 8080:8080  yonlendir.
 restart: Container çıktıkça yeniden başlat. restart: always
+depends: Bu hangi containerı içindeki fonksyoliteye bakmadan ilk önce depends de tanımlı olanı çalıştırıyor.
 
 Not: Eğer bir config vereceksem hazır image kullanmıyorum compose u build yapıyorum
 
-
+NOT: Dockerfile daki degilde ona baglı başka bir config dosyasında yapılan 
+degişikligi docker anlamıyor sadece Dockerfile deki anlıyor ve build ediyor
+onun için kendimiz build etmelizi  (docker-compose build service_name)

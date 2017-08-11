@@ -1,0 +1,116 @@
+
+Docker Swarm Mode and Container Orchestration;
+
+Swarm Mode Docker engine içinde çalışıyor.
+Cluster manager suculardan oluşan bir küme
+Load Balancer var Routing Mesh var default olarak geliyor.
+
+
+
+
+
+
+##KOMUTLAR##
+
+Bu komut makina oluşturuyor.
+sudo docker-machine create -d=virtualbox --virtualbox-cpu-count=2 --virtualbox-memory=1024 vbox-01
+Yanlız bu komutla oluşmuyorsa sanal makinalar yada baglanamıyorsanız bir sıkıntı var ise elle virtulabox
+programı kullanarak sanal makina oluştura biliriz 
+
+Ben 3 tane oluşturdum 
+
+debian_manager
+debian_worker01
+debian_worker02
+
+Docker Swarm Mode mantıgına göre birtane en az manager ım olması lazım onun için aşagıdaki komut kullanılıyor.
+
+#sudo docker swarm init  --> bu makinayı manager yapıyor.
+
+Burdaki gibi bir çıktı veriyor bunun sebebi diger workerları bu makinaya baklamak. Onun için diger client larda aşagıdaki token ını çalıtırmama lazım
+docker swarm join --token SWMTKN-1-4cplhtib0p69nkdafcxl0z2bzjvwabxgqx858kjs6jpfbatyy5-e01fdhbrtsct8q4gdpj13iift 10.0.50.116:2377
+
+Bu token eger kaybetmişsek tekrar almak için
+#docker swarm join token manager --> yazmamnız yeterli olacaktır. 
+
+
+çalıştırdırkdan sonra node ları listeleyelim.
+#sudo docker node ls --> node ları listeler.
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
+ocww4zdfxwohdpzfm3efctcvc     debianworker01      Ready               Active              
+s9jrra81bwizx2z932du6tjr5     debianworker02      Ready               Active              
+ssa2oemscwmhadie5k28tb88q *   debianmng           Ready               Active              Leader
+
+
+Görüldügü gibi node ları listeler budara leader olan yani manager olan debianmng ona baglı oalan worker debianworker01 debianworker02 olarak yer alıyor
+
+
+
+# docker-machine ls --> makinaları listeler                                                                                                                                                
+NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+vbox-01   -        virtualbox   Running   tcp://192.168.99.101:2376           v17.06.0-ce   
+
+# Oluşturdugumuz makinaları kaldırmak için 
+docker-machine rm vbox-01
+
+
+
+##DOCKER SWARMDA SERVISLER ILE ILGILI UYGULAMAKAR KOMUTLAR VE ORNEKLER###
+
+Örnegimizde şu anda toplamda 3 adet sanal makinamız var bu sanal makinalardan birtanesi manager ve diger ikitanesi worker olarak ayarlanmış durumda
+bu sanal makinalarda bir servis ayaga galdıracaz.
+
+# docker service create --name=web --publish=9000:80 nginx:1.0 --> servis oluştur adı web olsun bu servis dışarıya 9000 portunu açsın içeride 80 nginx kontainernı 
+kullan   
+
+
+timv3uzi7521j7iegn2a8zmem
+Since --detach=false was not specified, tasks will be created in the background.
+In a future release, --detach=false will become the default.
+
+Not: Servisleri sadece manager tarafında create edebilirz.
+Servis çalıştı çalışıp çalışmadıgını anlamak için
+
+mng@debianmng:~$ sudo docker service ps web --> hangi servis oldugunu belirtmemiz lazım. 
+ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE                  ERROR               PORTS
+ojc5vvbu4613        web.1               nginx:1.10          debianmng           Running             Preparing about a minute ago  
+
+Şu anda managerda çalıştı nerde çalıştıgını belirtmedim ama managerda çalıştı.
+
+debianmng nin ip adresi yazıp sayfaya gidebilirz http://10.0.50.116:9000/ --> port 9000 den hizmet veriyor.
+Servis şu anda sadece bir node da çlışıyor eger başka bir node un ip adresini girersem 117 veya 118 gibi 
+yine bı node yonlendirecektir.
+
+Bu servisin iki tane olamsını istiyorum yani replicasının oluşturulmasını istiyorum
+
+#sudo docker service update --replicas=2 web --> yine servis komutunu kullanıyorum reclicas 2 diyorum
+web
+Since --detach=false was not specified, tasks will be updated in the background.
+In a future release, --detach=false will become the default.
+
+mng@debianmng:~$ sudo docker service ps web
+ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE             ERROR                         PORTS
+ojc5vvbu4613        web.1               nginx:1.10          debianmng           Running             Running 35 minutes ago                                  
+lzhu6jd4cuhb        web.2               nginx:1.10          debianworker01      Running             Running 22 minutes ago  
+
+İki adet servis ayakta şimdi 
+
+Container listelemek için.
+
+#sudo docker container ps 
+wrk01@debianworker01:~$ sudo docker container ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+8e0c19b07a64        nginx:1.10          "nginx -g 'daemon ..."   23 minutes ago      Up 23 minutes       80/tcp, 443/tcp     web.2.lzhu6jd4cuhbvhmj7d7m67jg8
+
+Container'ı Öldürmek için  
+sudo docker container kill 8e0c19b07a64
+
+
+NOT: Containerları öldürdügümüz de docker swarm yerine oomatik olarak yenisi yapacaktır. 
+9 a kadar manager destekliyor genelde 1 manager yetiyor ama yedek olun istiyorsanız
+highevaliabiti için 3 adet öneriliyor max 9 bunun sebebei tek manager olursa ve seninde
+job ların varsa bu manager ölünce joblar kayboluyor onun için birden fazla manager olmazı gerek mutlaka.
+
+
+
+
