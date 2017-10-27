@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="hukuk_barkod_02" pageWidth="164" pageHeight="288" orientation="Landscape" columnWidth="1" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="2b2d300d-f00d-42cf-8147-669ba287ae6a">
+	<property name="ireport.zoom" value="1.6105100000000019"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="parameter_id" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select id,code,date_01::date,ck_01
+from core_keyvalue where entity_type_id = 38 and status = '1' and id = $P!{parameter_id}]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="code" class="java.lang.String"/>
+	<field name="date_01" class="java.sql.Date"/>
+	<field name="ck_01" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="69" splitType="Stretch">
+			<textField>
+				<reportElement x="1" y="49" width="156" height="20" uuid="99891fa7-8682-4ec8-8347-bd8495908340"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="1" y="0" width="149" height="49" uuid="c370eb4c-f053-46eb-9e1c-14703546e25d"/>
+				<imageExpression><![CDATA[new com.onbarcode.barcode.jasper.JasperRenderer(com.onbarcode.barcode.jasper.BarcodeGenerator.draw(3, $F{code}))]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

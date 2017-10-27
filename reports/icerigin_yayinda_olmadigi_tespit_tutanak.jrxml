@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ust_yazi_icerikcikarma_2_pr" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" isSummaryWithPageHeaderAndFooter="true" uuid="2677e799-8a74-4a25-857d-0c8e50595af0">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="22"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="parameter_id" class="java.lang.Integer"/>
+	<parameter name="esb_logo_path" class="java.lang.String"/>
+	<parameter name="tse_logo_path" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+gelen.code,
+(select code from core_keyvalue where id = gelen.ck_11) as ustyazisistemno,
+gelen.date_04,
+gelen.date_03 as karartarih,
+(select code from core_keyvalue c where c.entity_type_id =  38 and status = '1'  and c.Id = gelen.ck_01) as hukukdosyano,
+(select value from core_keyvalue m where m.entity_type_id = 20  and Id = (select ck_02 from core_keyvalue c where c.ENTITY_TYPE_ID = 5 and c.Id = gelen.ck_11 )) as hakimlik_ustyazi_geldigiyer,
+(select date_01 from core_keyvalue c where c.entity_type_id =  5 and status = '1'  and c.Id = gelen.ck_11) as hakimlik_ustyazi_geldigi_tarih,
+(select value_01 from core_keyvalue c where c.entity_type_id =  5 and status = '1'  and c.Id = gelen.ck_11) as hakimlik_ustyazi_geldigi_evrak_sayi,
+(select value from core_keyvalue m where m.entity_type_id = 20  and Id = gelen.ck_02) as geldigiyer_iceriksaglayici,
+url.value as url
+FROM core_keyvalue gelen
+LEFT JOIN core_keyvalue AS url ON gelen.id = url.ck_owner
+WHERE url.STATUS = '1' and url.ENTITY_TYPE_ID = 28 and gelen.ENTITY_TYPE_ID = 5
+and gelen.ck_02 = url.ck_03 /* url deki icerik saglayici ile gelen evrak geldigi yer icerik saglayici kabul ettik aynı olmasi gerek.*/
+and gelen.ck_06 = 736742 /*karar turu id tespit*/
+and gelen.ID = $P!{parameter_id}]]>
+	</queryString>
+	<field name="code" class="java.lang.String"/>
+	<field name="ustyazisistemno" class="java.lang.String"/>
+	<field name="date_04" class="java.sql.Timestamp"/>
+	<field name="karartarih" class="java.sql.Timestamp"/>
+	<field name="hukukdosyano" class="java.lang.String"/>
+	<field name="hakimlik_ustyazi_geldigiyer" class="java.lang.String"/>
+	<field name="hakimlik_ustyazi_geldigi_tarih" class="java.sql.Timestamp"/>
+	<field name="hakimlik_ustyazi_geldigi_evrak_sayi" class="java.lang.String"/>
+	<field name="geldigiyer_iceriksaglayici" class="java.lang.String"/>
+	<field name="url" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="752" splitType="Stretch">
+			<line>
+				<reportElement x="16" y="86" width="552" height="1" forecolor="#004B8D" uuid="a1ea2bdb-19ea-419b-a865-b762ae5b189f"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="384" y="70" width="180" height="16" forecolor="#0079C2" uuid="141b2927-fc83-4d9f-abc9-d751da5c7719"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Erişim Sağlayıcıları Birliği]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="21" y="295" width="539" height="111" uuid="f732c07b-1de1-441d-a9b9-312816401f87"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="12" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["                   "+"5651 sayılı yasanın  9/7 maddesi, “Erişimin engellenmesine konu içeriğin yayından çıkarılmış olması durumunda hâkim kararı kendiliğinden hükümsüz kalır.” hükmündedir. Erişim Sağlayıcıları Birliği Yönetim Kurulu’nun 29.02.2016 tarih ve 2016/06 sayılı kararında; “Birliğe gelen erişimin engellenmesi kararlarının, karara konu içeriğin çıkarılması veya engellenmesi için içerik ve yer sağlayıcılarına bildirilmesine, içeriğin çıkarıldığının veya erişime engellendiğinin Birlik tarafından re’sen tespit edilmesine ya da içerik ya da yer sağlayıcısı tarafından içeriğin çıkarıldığının veya engellendiğinin bildirilmesi halinde engelleme kararının kaldırılması için Birlik tarafından gerekli işlemlerin yapılmasına ...” karar verilmiştir.."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="22" y="406" width="539" height="57" uuid="5716240b-e9ed-4b59-b177-f8b485c0c91f"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="12" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["                   "+"Birliğimizce yapılan inceleme neticesinde "+$F{hakimlik_ustyazi_geldigiyer}+" "+new SimpleDateFormat("dd.MM.yyyy").format($F{hakimlik_ustyazi_geldigi_tarih})+" tarih ve "+$F{hakimlik_ustyazi_geldigi_evrak_sayi}+" D. İş sayılı erişimin engellenmesi kararına konu olan ekteki URL adresindeki/adreslerindeki içeriğin/içeriklerin yayında bulunmadığı tespit edilmiştir."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="247" y="725" width="205" height="13" forecolor="#0079C2" uuid="e1f0a750-0c9c-421b-9825-71985cddfe63"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="11" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[T 0.312 266 28 40 F .0312 266 28 51 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="247" y="738" width="205" height="13" forecolor="#0079C2" uuid="320d3440-1379-411e-a514-1a0947d47cf7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="11" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[info@esb.org.tr /www.esb.org.tr ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="457" y="699" width="97" height="52" forecolor="#0079C2" backcolor="#0079C2" uuid="9b73041b-e90e-427b-82f0-fddbb6215e4a"/>
+			</rectangle>
+			<line>
+				<reportElement x="3" y="696" width="552" height="1" forecolor="#004B8D" uuid="035dc850-ce4c-492f-99cd-41b55917573a"/>
+				<graphicElement>
+					<pen lineWidth="0.75" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="466" y="702" width="85" height="45" forecolor="#FFFFFF" uuid="1af4ef1a-3b55-48c3-b8b4-7754e8b1f4e3"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Erişim
+Sağlayıcıları
+Birliği]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="5" y="737" width="53" height="15" uuid="5e6da419-db9a-4e73-b36e-4671cd6e1fd8"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sayfa "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="415" y="1" width="149" height="68" uuid="81d13948-f905-4f4d-8c06-174446970423"/>
+				<imageExpression><![CDATA[$P{esb_logo_path}]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="95" y="91" width="276" height="15" uuid="f83b0948-94c2-4663-ada3-ee666a859618"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hukukdosyano}+" - "+$F{code}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="91" width="77" height="15" uuid="3b947c8f-3efc-4ef4-b1e4-dcf79b7662b8"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Sayı:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="464" y="105" width="100" height="15" uuid="00f87c77-5b16-49c8-a813-f6d2d5c2a645"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy").format($F{date_04})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="235" y="658" width="137" height="15" uuid="04ee4457-555e-4b3e-8364-542ee558b4f5"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Doç. Dr. Bülent KENT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="234" y="673" width="137" height="15" uuid="eee19036-7b82-4ef2-9bef-1da1a8d44980"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Genel Sekreter]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="46" y="157" width="503" height="20" uuid="45dc893e-bd8d-4d3c-be9e-4abf7eb86b7b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["İÇERİĞİN YAYINDA OLMADIĞININ TESPİTİNE DAİR TUTANAK"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="22" y="206" width="539" height="89" uuid="ad449dfc-bfed-430f-bf01-0eb804915e61"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["                   "+$F{hakimlik_ustyazi_geldigiyer}+" "+new SimpleDateFormat("dd.MM.yyyy").format($F{hakimlik_ustyazi_geldigi_tarih})+" tarih ve "+$F{hakimlik_ustyazi_geldigi_evrak_sayi}+" D. İş sayılı kararı ile kararda belirtilen URL adresi/adreslerine erişimin engellenmesine hükmedilmiş ve karar, gereği yerine getirilmek üzere Birliğimize gönderilmiştir. Birliğimizce, karar erişimin engellenmesi için erişim sağlayıcılara iletilmiştir. Ayrıca içeriğin çıkarılmasını sağlamak için ilgili içerik sağlayıcıya "+$F{geldigiyer_iceriksaglayici}+"  bildirilmiştir."]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="6" y="698" width="98" height="40" uuid="f7d63ab4-03d4-4437-893f-bc88d8b777cb"/>
+				<imageExpression><![CDATA[$P{tse_logo_path}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="20" y="489" width="540" height="15" uuid="4fdbdc33-82a1-4209-8699-54b961752630"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Ek-1: İçerikten çıkarıldığı tespit edilen URL adresi/adresleri]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="129" y="710" width="323" height="13" forecolor="#0079C2" uuid="edf2da6e-c2ce-46a9-b4f0-8b6bea425a04"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="11" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Ahmet Taner Kışlalı Cad.  No:4  Kat:8  Çankaya/ANKARA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="179" y="698" width="273" height="13" forecolor="#0079C2" uuid="0e859d24-d6b5-4730-b09c-cc885bc6b036"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="11" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[North Star Plaza  -  Koru Mah.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="507" width="540" height="15" uuid="ffbf9da5-47bf-45db-beaa-8d825fbf17e6"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Ek-2: Zaman damgalı ekran görüntüsü (Esbos'da kayıtlı)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="549" width="137" height="15" uuid="03c50e8e-f8fe-4616-b8d4-f4068f0ae6b0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Hüseyin ÖZMEN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="564" width="137" height="15" uuid="ea9fe3b2-4b57-4819-bc18-de3b33838a24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Avukat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="414" y="549" width="137" height="15" uuid="824479b4-7811-4edd-8f87-b95a50d89eef"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Volkan KILIÇ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="413" y="564" width="137" height="15" uuid="bba91497-90dd-418d-912c-2ff5576019e8"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Teknik Uzman]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="618" width="137" height="15" uuid="b78e492e-c1fa-446e-9f4a-3d91e4a7c053"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Y.Seda UYSAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="633" width="137" height="15" uuid="495098d4-cbd3-47bb-ba8b-e78ce032bb40"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Genel Sek.Yrd.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="418" y="618" width="137" height="15" uuid="c6967db4-371e-411d-aadc-40fe6fc97629"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Dr. Yahya ŞİRİN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="417" y="633" width="137" height="15" uuid="91db4c84-b2b5-45fb-8845-26ca0b912152"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Genel Sek.Yrd]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="106" width="77" height="15" uuid="d804a32a-2260-469a-804b-441a319a74da"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[İlişkili Evrak:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="96" y="106" width="276" height="15" uuid="812343aa-a9dc-48cf-b831-2e81f7ba8765"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ustyazisistemno}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="110" splitType="Stretch">
+			<line>
+				<reportElement x="20" y="101" width="552" height="1" forecolor="#004B8D" uuid="49dd77bc-b195-4ff1-bf6d-236f5287cb6f"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="384" y="80" width="180" height="16" forecolor="#0079C2" uuid="2c53ad74-a56f-4c5d-95d0-0367f457497e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Erişim Sağlayıcıları Birliği]]></text>
+			</staticText>
+			<image>
+				<reportElement x="415" y="11" width="149" height="68" uuid="f9070118-af44-41e4-b7db-30cd58f2ae31"/>
+				<imageExpression><![CDATA[$P{esb_logo_path}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Immediate">
+			<textField>
+				<reportElement x="12" y="5" width="539" height="24" uuid="41f94a6a-9abd-4fb5-8325-194916471cc6"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["İçerikten çıkarıldığı tespit edilen URL adresi/adresleri."]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="51" splitType="Prevent">
+			<textField>
+				<reportElement x="20" y="4" width="535" height="43" uuid="17813bef-1205-47b3-a220-fa041c4b9bcd"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{url}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="21" y="47" width="528" height="1" forecolor="#D3D3D3" uuid="04ca72bb-f7f1-4435-8507-0d82c82a1042"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="69">
+			<staticText>
+				<reportElement x="247" y="51" width="205" height="13" forecolor="#0079C2" uuid="8672c8c8-b603-4373-bba3-65db7f07f4de"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="11" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[info@esb.org.tr /www.esb.org.tr ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="247" y="39" width="205" height="13" forecolor="#0079C2" uuid="8f2e1b57-a558-48f7-8528-9296370e82ff"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="11" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[T 0.312 266 28 40 F .0312 266 28 51 ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="6" y="4" width="552" height="1" forecolor="#004B8D" uuid="22d82524-447c-4179-984a-b3981831ca05"/>
+				<graphicElement>
+					<pen lineWidth="0.75" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<rectangle>
+				<reportElement x="455" y="12" width="97" height="52" forecolor="#0079C2" backcolor="#0079C2" uuid="a5b30583-af57-462f-b570-0402dc5e5a99"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="464" y="15" width="85" height="45" forecolor="#FFFFFF" uuid="601901b1-cb98-4b85-9213-4c16410af597"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Erişim
+Sağlayıcıları
+Birliği]]></text>
+			</staticText>
+			<image>
+				<reportElement x="7" y="10" width="98" height="40" uuid="3017f9ca-6cfb-4cca-8c01-8ce752aead13"/>
+				<imageExpression><![CDATA[$P{tse_logo_path}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="4" y="52" width="53" height="15" uuid="b797dbc8-e629-4efa-b9ce-aec07acc4da0"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sayfa "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="129" y="27" width="323" height="13" forecolor="#0079C2" uuid="c07cedb6-950b-4254-aa90-19e5eb64967a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="11" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Ahmet Taner Kışlalı Cad.  No:4  Kat:8  Çankaya/ANKARA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="179" y="15" width="273" height="13" forecolor="#0079C2" uuid="5b7e530f-a434-4e81-b846-eeb532b73f69"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="11" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[North Star Plaza  -  Koru Mah.]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

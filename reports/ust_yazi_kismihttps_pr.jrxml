@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ust_yazi_kismihttps_pr" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="7" bottomMargin="20" uuid="1389251c-4c3c-4308-8172-f32d6ba92a5e">
+	<property name="ireport.zoom" value="1.948717100000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="877"/>
+	<parameter name="parameter_id" class="java.lang.Integer"/>
+	<parameter name="esb_logo_path" class="java.lang.String"/>
+	<parameter name="tse_logo_path" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+(select code from core_keyvalue c where c.entity_type_id =  38 and status = '1'  and c.Id = giden.ck_02) as gidenhukukdosyano,
+giden.code  as gidenevrakno,
+giden.date_01 as gidenevraktarih,
+(select code from core_keyvalue c where c.ENTITY_TYPE_ID = 5 and c.Id = giden.ck_01 ) as gelenevrakdosyano,
+(select date_01 from core_keyvalue c where c.ENTITY_TYPE_ID = 5 and c.Id = giden.ck_01 ) as geldigiyerevraktarih,
+(select value_01 from core_keyvalue c where c.ENTITY_TYPE_ID = 5 and c.Id = giden.ck_01 ) as geldigiyerevraksayi,
+(select value from core_keyvalue m where m.entity_type_id = 20  and Id = (select ck_02 from core_keyvalue c where c.ENTITY_TYPE_ID = 5 and c.Id = giden.ck_01 )) as geldigiyer,
+(select date_03 from core_keyvalue c where c.ENTITY_TYPE_ID = 5 and c.Id = giden.ck_01 ) as karartarih,
+(select shortvalue from core_keyvalue c where c.ENTITY_TYPE_ID = 5 and c.Id = giden.ck_01 ) as degisilisno,
+(select value from core_keyvalue m where m.entity_type_id = 20  and Id = giden.ck_05 ) as nobetcimahkeme,
+(select VALUE from core_keyvalue where ENTITY_TYPE_ID = 59 and status = '1' and code = 'Avukat_01') as avukat01,
+(select VALUE from core_keyvalue where ENTITY_TYPE_ID = 59 and status = '1' and code = 'Avukat_02') as avukat02,
+(select VALUE from core_keyvalue where ENTITY_TYPE_ID = 59 and status = '1' and code = 'Avukat_03') as avukat03,
+(select VALUE from core_keyvalue where ENTITY_TYPE_ID = 59 and status = '1' and code = 'Avukat_04') as avukat04,
+(select VALUE from core_keyvalue where ENTITY_TYPE_ID = 59 and status = '1' and code = 'Genel Sekreter Yrd. (Hukuk)') as hukukgyrd
+ from core_keyvalue giden where giden.ENTITY_TYPE_ID = 27 and giden.ID = $P{parameter_id}]]>
+	</queryString>
+	<field name="gidenhukukdosyano" class="java.lang.String"/>
+	<field name="gidenevrakno" class="java.lang.String"/>
+	<field name="gidenevraktarih" class="java.sql.Timestamp"/>
+	<field name="gelenevrakdosyano" class="java.lang.String"/>
+	<field name="geldigiyerevraktarih" class="java.sql.Timestamp"/>
+	<field name="geldigiyerevraksayi" class="java.lang.String"/>
+	<field name="geldigiyer" class="java.lang.String"/>
+	<field name="karartarih" class="java.sql.Timestamp"/>
+	<field name="degisilisno" class="java.lang.String"/>
+	<field name="nobetcimahkeme" class="java.lang.String"/>
+	<field name="avukat01" class="java.lang.String"/>
+	<field name="avukat02" class="java.lang.String"/>
+	<field name="avukat03" class="java.lang.String"/>
+	<field name="avukat04" class="java.lang.String"/>
+	<field name="hukukgyrd" class="java.lang.String"/>
+	<variable name="variableGonderme" class="java.lang.String">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{nobetcimahkeme} == null ? "" :"GÖNDERİLMEK ÜZERE"]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="86" splitType="Stretch">
+			<staticText>
+				<reportElement x="397" y="65" width="156" height="16" forecolor="#0079C2" uuid="c425aaa2-da50-4c30-a295-ec8e591d97de"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Erişim Sağlayıcıları Birliği]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="82" width="552" height="1" forecolor="#004B8D" uuid="f7d405df-4e16-4113-9a65-a76e56d60af9"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<image>
+				<reportElement x="409" y="1" width="134" height="65" uuid="f8afac25-f258-4289-ba8b-9d05fc7c665a"/>
+				<imageExpression><![CDATA[$P{esb_logo_path}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="185" splitType="Stretch">
+			<staticText>
+				<reportElement x="33" y="0" width="47" height="15" uuid="9fb329fe-22f4-4324-b797-2decc3153482"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Sayı:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="15" width="47" height="15" uuid="10e81b5b-3c77-4cc8-bf70-5fc38d4d5496"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Konu:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="80" y="0" width="276" height="15" uuid="fa106720-9432-4e23-a955-62849f11b4b5"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gidenevrakno}+" - "+$F{gidenhukukdosyano}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="15" width="159" height="15" uuid="47067a70-052d-4e82-93b8-35749a5c9b9b"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Hakimlik Kararı Hakkında]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="455" y="30" width="100" height="15" uuid="c09b2dde-b420-4f1b-8cdf-17e245613f85"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy").format($F{gidenevraktarih})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="83" width="550" height="15" uuid="c463817f-dffd-40cf-aab1-eb52dae72aff"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{geldigiyer}+"'NE"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="5" y="113" width="550" height="15" uuid="87d89574-fe70-4421-a9f2-45ce98f5c35b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nobetcimahkeme}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="328" y="159" width="221" height="15" uuid="9b1135e9-ea19-4472-99eb-4345004ca240"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Dosya No: "+$F{degisilisno}+" D.İş"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="5" y="98" width="550" height="15" uuid="a0f9b12f-11ad-46a4-bf2d-6ab70bbb64c6"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{variableGonderme}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="312" splitType="Stretch">
+			<staticText>
+				<reportElement x="33" y="18" width="25" height="20" uuid="81a1a5ce-264c-49ea-8f6e-99f80f157abf"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[İlgi:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="58" y="18" width="503" height="20" uuid="4a23bdde-d9ab-41c4-93dd-91a2054d97ef"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Hakimliğinizin "+new SimpleDateFormat("dd.MM.yyyy").format($F{karartarih})+ " tarih ve "+$F{degisilisno}+" D.İş sayılı kararı"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="54" width="550" height="40" uuid="406d8d6d-d175-4fbb-8e45-7745d30a4f59"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[            Sayın Hakimliğinizin ilgide kayıtlı kararında söz edilen URL adresine/adreslerine erişimin engellenmesine hükmedilmiş ve karar gereği yerine getirilmek üzere Birliğimize gönderilmiştir.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="96" width="550" height="86" uuid="c797f332-0f60-4377-b9e8-3902d259f56c"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[            Erişim sağlayıcılar tarafından kullanılan sistemlerin teknik yetersizlikleri nedeni ile URL adresleri üzerinden münhasıran ‘’http’’ protokolü kullanılarak internette yayınlanan içeriklere erişimin engellenmesi mümkün olabilmekte, çoğunlukla hesap oluşturularak kullanılan ‘’facebook.com’’, ‘’youtube.com’’, ‘’twitter.com’’ gibi internet adresleri sayfalarında yer verilen içeriklerin ise ‘’https’’ protokolünü kullanmalarından dolayı URL den erişimin engellenmesi tedbirinin uygulanması teknik olarak mümkün bulunmamaktadır. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="185" width="550" height="58" uuid="f38f9027-00a8-473c-a652-f2aa55c8739a"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[                Sayın Hakimliğinizin ilgide belirtilen kararında http protokolüyle başlayan adresler yönünden verdiği Erişimin Engellenmesi kararı ile aynı kararda yer alan ancak https protokolüyle başlayan adresler hakkındaki Erişimin Engellenmesi kararı da yine yukarıda teknik olarak arz edilen yetersizlik doğrultusunda ifa edilmek üzere erişim sağlayıcılara Birliğimizce gönderilmiştir. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="67" y="252" width="472" height="18" uuid="6fc3fbdd-159c-459f-8e48-93ea7d5e9b90"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Bilgilerinize arz ederiz.]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="127" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="74" width="552" height="1" forecolor="#004B8D" uuid="2e50dfc1-c115-408b-8e33-4aa5e25a96d7"/>
+				<graphicElement>
+					<pen lineWidth="0.75" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<rectangle>
+				<reportElement x="455" y="74" width="97" height="52" forecolor="#0079C2" backcolor="#0079C2" uuid="800384b6-9563-4c9c-a7ee-84aa79c33aba"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="464" y="77" width="85" height="45" forecolor="#FFFFFF" uuid="26d2c19e-92a2-49ac-83fa-39078e66eeed"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Erişim
+Sağlayıcıları
+Birliği]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="248" y="101" width="205" height="13" forecolor="#0079C2" uuid="327e13f8-b4f7-4448-a6c0-290a1fd25040"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="11" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[T 0.312 266 28 40 F .0312 266 28 51 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="248" y="113" width="205" height="13" forecolor="#0079C2" uuid="2b27dfa2-019d-45af-88f0-f34d163855b4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="11" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[info@esb.org.tr /www.esb.org.tr ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="43" width="56" height="15" uuid="03f14376-6e44-4a19-a879-89cf1bff939f"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy").format($F{gidenevraktarih})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="58" width="56" height="15" uuid="c7a50d88-75a2-432d-afe4-0f537e477398"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy").format($F{gidenevraktarih})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="28" width="56" height="15" uuid="00492d59-833e-4690-a0bf-289287efdddb"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy").format($F{gidenevraktarih})]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="11" y="77" width="102" height="45" uuid="1c9a4c75-c489-46dd-a29d-ff6dd2ebec05"/>
+				<imageExpression><![CDATA[$P{tse_logo_path}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="70" y="58" width="159" height="15" uuid="603340ca-6be8-4395-9c2b-545542a116ee"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hukukgyrd}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="43" width="159" height="15" uuid="ca7f3da8-889d-41bd-b68b-a660267612c7"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{avukat01}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="28" width="159" height="15" uuid="55e75b70-7aaa-447b-991f-6c1a6bd33dfd"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{avukat02}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="74" width="273" height="13" forecolor="#0079C2" uuid="22304241-2b95-47dd-be81-0eb035c8105e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="11" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[North Star Plaza  -  Koru Mah.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="86" width="323" height="13" forecolor="#0079C2" uuid="2aa0bfad-ecad-47da-bc39-cee463dc0447"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="11" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Ahmet Taner Kışlalı Cad.  No:4  Kat:8  Çankaya/ANKARA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="70" y="13" width="159" height="15" uuid="e6c0c50a-98e8-43bd-a8a7-076fd7bf1c16"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{avukat03}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="159" height="15" uuid="0b249f44-eadc-4fac-8e4e-b10efa9f0ead"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{avukat04}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="13" width="56" height="15" uuid="79b93b7c-06da-413e-a814-1e0f03f415c6"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy").format($F{gidenevraktarih})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="11" y="0" width="56" height="15" uuid="43f97ce3-ca29-4f76-bee3-33d6e3672310"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy").format($F{gidenevraktarih})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="47" splitType="Stretch">
+			<staticText>
+				<reportElement x="416" y="5" width="137" height="15" uuid="913fbb76-69af-4847-956f-b2a20231b5ee"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Doç. Dr. Bülent KENT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="20" width="137" height="15" uuid="11b029ff-c486-4d6e-8d1b-b04f65970c4c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Genel Sekreter]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
