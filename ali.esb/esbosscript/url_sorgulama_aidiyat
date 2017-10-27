@@ -1,0 +1,17 @@
+--esbosdan url sorgulama işlemine denkgelen kısmın 
+SELECT
+	--ad.id,
+	--ad.date_01,
+	ad.url as adres,
+	--ad.status,
+	case when ad.status = '1' then 'Engelli' else 'Engelli Değil' end as Durumu,
+	ck.code as sistemno,
+	ck.shortvalue as DişNo,
+	(select c.code from core_keyvalue c where c.status='1' and c.entity_type_id=38 and c.id=ck.ck_01) as hukukdosyano,
+	(select c.value from core_keyvalue c where c.status='1' and c.entity_type_id=20 and c.id=ck.ck_02) as geldigiyer
+FROM aidiyat as ad
+	LEFT JOIN core_keyvalue AS ck ON ck.id=ad.document_id
+WHERE
+	ad.url like '%instagram.com%'
+	order by ad.id desc
+	limit 10; 

@@ -1,0 +1,94 @@
+﻿/*aylık bazda istatistik*/
+select
+(select c.value from core_keyvalue c where c.entity_type_id = 36 and c.ID=ck.ck_08 and status = '1') as durumu,count(*) as sayı
+from core_keyvalue ck where ck.ENTITY_TYPE_ID = 5 and ck.ck_05 = 80592 and ck.status = '1'
+and date_04 >='2017-03-01 00:00'
+and date_04<='2017-03-31 24:00'
+GROUP BY ck.ck_08
+HAVING COUNT(ck.ck_08) > 0
+order by ck.ck_08;
+
+select
+(select c.value from core_keyvalue c where c.entity_type_id = 34 and c.ID=ck.ck_06 and status = '1') as KararTuru,count(*) as sayı
+from core_keyvalue ck where ck.ENTITY_TYPE_ID = 5 and ck.ck_05 = 80592 and ck.status = '1'
+and date_04 >='2017-03-01 00:00'
+and date_04<='2017-03-31 24:00'
+GROUP BY ck.ck_06
+HAVING COUNT(ck.ck_06) > 0
+order by ck.ck_06;
+
+
+select
+(select c.value from core_keyvalue c where c.entity_type_id = 35 and c.ID=ck.ck_07 and status = '1') as KararGerekcesi,count(*) as sayı
+from core_keyvalue ck where ck.ENTITY_TYPE_ID = 5 and ck.ck_05 = 80592 and ck.status = '1'
+and date_04 >='2017-03-01 00:00'
+and date_04<='2017-03-31 24:00'
+GROUP BY ck.ck_07
+
+
+select b.status, b.tarih,count(*)
+from
+	(select distinct a.url,a.type,a.status,a.tarih from 
+		(
+			SELECT
+				cu.value as url,
+				(select code from core_keyvalue where cu.ck_02 = id) as type,
+				ct.value as status,
+				EXTRACT(MONTH FROM co.date_04 ) as tarih
+			FROM
+				core_keyvalue cu,
+				core_keyvalue co,
+				core_keyvalue ct
+			WHERE
+				1=1
+				AND co.ck_05 = 80592
+				AND cu.ck_owner = co.id
+				AND co.ck_06 = ct.id
+				AND (ct.code = 'add')
+				AND cu.entity_type_id = 28
+				AND cu.status = '1'
+				AND co.status = '1'
+				AND co.date_04 >='2017-03-01 00:00'
+				AND co.date_04<='2017-03-30 24:00'
+				AND co.entity_type_id = 5
+				--AND cu.ck_01 = 161293 -- içerik saglayıcıya gonderilen url("İçerik Sağlayıcıya  Gönderildi")
+				AND co.ck_08 in (82821)
+		) as a
+	) as b
+group by b.status,b.tarih
+having count(b.status) > 0
+order by b.tarih
+;
+
+
+select b.status, count(*)
+from
+(select distinct a.url,a.type,a.status from
+(SELECT
+cu.value as url,
+(select code from core_keyvalue where cu.ck_02 = id) as type,
+ct.value as status
+FROM
+core_keyvalue cu,
+core_keyvalue co,
+core_keyvalue ct
+WHERE
+1=1
+AND co.ck_05 = 80592
+AND cu.ck_owner = co.id
+AND co.ck_06 = ct.id
+AND (ct.code = 'remove')
+AND cu.entity_type_id = 28
+AND cu.status = '1'
+AND co.status = '1'
+AND co.date_04 >='2014-01-01 00:00'
+AND co.date_04 <='2017-03-31 24:00'
+AND co.entity_type_id = 5
+--AND cu.ck_01 = 161293 -- içerik saglayıcıya gonderilen url("İçerik Sağlayıcıya  Gönderildi")
+AND co.ck_08 in (82821)
+) as a
+) as b
+group by b.status
+having count(b.status) > 0
+;
+

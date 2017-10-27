@@ -1,0 +1,2 @@
+select ck_owner,date_01,byte_01_name,byte_01 from core_keyvalue where entity_type_id = 102 and byte_01_name is not null 
+and byte_01 is null order by date_01 desc

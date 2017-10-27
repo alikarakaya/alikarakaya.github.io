@@ -1,0 +1,7 @@
+select 
+(select value from core_keyvalue where entity_type_id = 20 and status = '1' and id = ck.ck_01) as muhatap,
+ck.ck_owner as dosyano_id,
+(select code from core_keyvalue where entity_type_id = 5 and status = '1' and id = ck.ck_owner) as sistemno
+ from core_keyvalue ck where ck.entity_type_id = 48 -- gelen evrak muhatap entity id
+ and ck.status = '1' 
+ and ck.ck_01 = 156375; -- Gelen evrak muhatap id si

@@ -1,0 +1,66 @@
+﻿-- İçerik saglayıcıları gönderilen add olarak işaretli olanlar..
+select b.status, count(*)
+from
+(select distinct a.url,a.type,a.status from 
+(SELECT
+cu.value as url,
+(select code from core_keyvalue where cu.ck_02 = id) as type,
+ct.value as status
+FROM
+core_keyvalue cu,
+core_keyvalue co,
+core_keyvalue ct
+WHERE
+1=1
+AND co.ck_05 = 80592
+AND cu.ck_owner = co.id
+AND co.ck_06 = ct.id
+AND (ct.code = 'add')
+AND cu.entity_type_id = 28
+AND cu.status = '1'
+AND co.status = '1'
+AND co.date_04 >='2014-01-01 00:00' 
+AND co.date_04 <='2016-10-31 24:00'
+AND co.entity_type_id = 5
+AND cu.ck_01 = 161293 -- içerik saglayıcıya gonderilen url("İçerik Sağlayıcıya  Gönderildi")
+AND co.ck_08 in (82821)
+) as a
+) as b
+group by b.status
+having count(b.status) > 0
+;
+
+select * from core_keyvalue where id = 161293;
+--
+
+
+-- remove olanlar hepsi icin
+select b.status, count(*)
+from
+(select distinct a.url,a.type,a.status from 
+(SELECT
+cu.value as url,
+(select code from core_keyvalue where cu.ck_02 = id) as type,
+ct.value as status
+FROM
+core_keyvalue cu,
+core_keyvalue co,
+core_keyvalue ct
+WHERE
+1=1
+AND co.ck_05 = 80592
+AND cu.ck_owner = co.id
+AND co.ck_06 = ct.id
+AND (ct.code = 'remove')
+AND cu.entity_type_id = 28
+AND cu.status = '1'
+AND co.status = '1'
+AND co.entity_type_id = 5
+AND co.date_04 >='2014-01-01 00:00' 
+AND co.date_04 <='2016-10-31 24:00'
+AND co.ck_08 in (82821)
+) as a
+) as b
+group by b.status
+having count(b.status) > 0
+;

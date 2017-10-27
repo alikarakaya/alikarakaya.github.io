@@ -1,0 +1,8 @@
+/* giden evrak
+select (select value from core_keyvalue t where t.status = '1' and t.ENTITY_TYPE_ID = 20 and t.id = c.ck_04) as gonderildigiyer,
+c.date_01 as gonderilmetarih,c.code,
+(select value from core_keyvalue t where t.status = '1' and t.ENTITY_TYPE_ID = 26 and t.id = c.ck_03) as gidenevrakkonusu,
+(select value from core_keyvalue t where t.status = '1' and t.ENTITY_TYPE_ID = 51 and t.id = c.ck_06) as gonderilmesekli
+from core_keyvalue c where ENTITY_TYPE_ID = 27 and status = '1'
+and date_02 >= '2016-01-01' and date_02 <='2016-12-31'
+order by c.code

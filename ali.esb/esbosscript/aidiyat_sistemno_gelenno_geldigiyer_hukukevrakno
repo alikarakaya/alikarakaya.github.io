@@ -1,0 +1,13 @@
+select ad.url,
+(select code from core_keyvalue where entity_type_id = 5 and status = '1' and id = ad.document_id) as sistemevrakno,
+(select value_01 from core_keyvalue where entity_type_id = 5 and status = '1' and id = ad.document_id) as gelenevranno,
+(select value from core_keyvalue where entity_type_id = 20 and status = '1' and id = (select ck_02 from core_keyvalue where entity_type_id = 5 and status = '1' and id 
+= ad.document_id)) as geldigiyer,
+(select code from core_keyvalue where entity_type_id = 38 and status = '1' and id = (select ck_01 from core_keyvalue where entity_type_id = 5 and status = '1' and id 
+= ad.document_id)) as hukukevrakno
+--(select bool_1 from core_keyvalue where entity_type_id = 28 and status = '1' and ck_owner = ad.document_id and value = ad.url) as icerik,
+--(select bool_1 from core_keyvalue where entity_type_id = 28  and status = '1' and ck_owner = ad.document_id and ad.url = (select distinct value from core_keyvalue 
+where entity_type_id = 28 and status = '1' and ck_owner = ad.document_id)), 
+--ad.document_id 
+from aidiyat ad where status = '1' order by document_id desc 
+

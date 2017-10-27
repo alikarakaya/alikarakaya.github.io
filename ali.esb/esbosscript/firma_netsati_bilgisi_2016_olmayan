@@ -1,0 +1,18 @@
+select 
+ck.code as sicilno ,
+(select value from core_keyvalue where entity_type_id=39 and status = '1' and id = ck.ck_03) as uyelikdurumu,
+ck.value as firmaadi
+from core_keyvalue ck 
+where ck.entity_type_id = 20 and ck.status = '1' 
+and ck.ck_02 = 124063 and ck.ck_03 = 145807 
+and ck.id not in (
+select 
+ck.id
+from core_keyvalue ck ,core_keyvalue netsatis
+where ck.entity_type_id = 20 and ck.status = '1' 
+and ck.ck_02 = 124063 and ck.ck_03 = 145807 
+and netsatis.entity_type_id = 90 and netsatis.status = '1'
+and ck.id = netsatis.ck_owner 
+and netsatis.value_01 = '2016'
+)
+order by ck.code;

@@ -1,0 +1,34 @@
+
+select 
+	ck.date_01 as uyeliktarihi,
+	ck.code as sicilno ,
+	(select value from core_keyvalue where entity_type_id=39 and status = '1' and id = ck.ck_03) as uyelikdurumu,
+	ck.value as firmaadi,
+	adres.description as adres,
+	ck.value_02 as vergino,
+	ck.value_03 as vergidairesi,
+	adres.value_03 as KEPadresi,
+	adres.value_04 as teknikmailadres,
+	adres.value_05 as gelenmailadres,
+	adres.value_06 as erisimengellemeemailadresi,
+	adres.value_07 as beyannamemailadresi,
+	ilet.value as ilgilikisi,
+	ilet.value_01 as telefon,
+	ilet.value_02 as gsm,
+	ilet.description as aciklama,
+	ilet.value_07 as ilgilikisiemail
+from 
+	core_keyvalue ck ,core_keyvalue adres ,core_keyvalue ilet
+where 
+	ck.entity_type_id = 20 
+	and ck.status = '1' 
+	and ck.ck_02 = 124063 
+	and ck.ck_03 = 145807 
+	and adres.entity_type_id = 23 
+	and adres.status = '1'
+	and ck.id = adres.ck_owner
+	and ilet.entity_type_id = 24
+	and ck.id = ilet.ck_owner
+--	and ck.code = '14092'
+order by ck.code;
+

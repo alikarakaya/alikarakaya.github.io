@@ -1,0 +1,18 @@
+select value Adres,
+	(select c.value from core_keyvalue c where c.entity_type_id = 8 and c.ID=u.ck_02  and status = '1') as EngellemeTipi
+from core_keyvalue u where u.entity_type_id = 28 and u.status = '1'
+and u.ck_owner in
+	(
+		SELECT
+		ck.Id
+		FROM core_keyvalue AS ck
+		LEFT JOIN core_keyvalue AS hukuk ON ck.CK_01 = hukuk.ID
+		WHERE ck.entity_type_id = 5 and ck.status = '1' and ck.CK_01 is not null
+		and hukuk.ENTITY_TYPE_ID = 38 and hukuk.STATUS = '1'
+		and ck.date_04 >='2015-01-01 00:00' 
+		and ck.date_04 <='2016-12-31 24:00' 
+		and ck.ck_02 in
+			(select c.id from core_keyvalue c where c.entity_type_id = 20 and c.ID=ck.ck_02  
+			and status = '1' and c.value like '%BÜROSU%' and c.value like '%FİKRİ%')
+	)
+

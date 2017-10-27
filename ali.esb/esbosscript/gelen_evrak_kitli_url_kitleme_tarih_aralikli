@@ -1,0 +1,7 @@
+update core_keyvalue set locked = '111' where id in(
+select id from core_keyvalue where entity_type_id = 28 and status = '1' and 
+locked is null and ck_owner in
+(select id from core_keyvalue where entity_type_id = 5 and status = '1' and 
+locked = '111'
+and date_04 >='2017-01-01 00:00'
+and date_04 <='2017-06-30 24:00'));

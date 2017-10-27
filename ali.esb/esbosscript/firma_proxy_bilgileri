@@ -1,0 +1,18 @@
+select 
+--ck.date_01 as uyeliktarihi,
+ck.code as sicilno ,
+(select value from core_keyvalue where entity_type_id=39 and status = '1' and id = ck.ck_03) as uyelikdurumu,
+ck.value as firmaadi,
+--adres.description as adres,
+--(select value from core_keyvalue t where t.entity_type_id=17 and t.status = '1' and t.id = adres.ck_01) as il,
+--(select value from core_keyvalue t where t.entity_type_id=18 and t.status = '1' and t.id = adres.ck_02) as ilce
+proxy.value_01,
+proxy.value_02,
+proxy.value_03,
+proxy.value_04
+from core_keyvalue ck ,core_keyvalue proxy
+where ck.entity_type_id = 20 and ck.status = '1' 
+and ck.ck_02 = 124063 and ck.ck_03 = 145807 
+and proxy.entity_type_id = 55 and proxy.status = '1'
+and ck.id = proxy.ck_owner 
+order by ck.code;
