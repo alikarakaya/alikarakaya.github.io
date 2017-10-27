@@ -112,5 +112,43 @@ highevaliabiti için 3 adet öneriliyor max 9 bunun sebebei tek manager olursa v
 job ların varsa bu manager ölünce joblar kayboluyor onun için birden fazla manager olmazı gerek mutlaka.
 
 
+Node ları listelemek için 
+sudo docker node ls
+ocww4zdfxwohdpzfm3efctcvc     debianworker01      Ready               Active              
+s9jrra81bwizx2z932du6tjr5     debianworker02      Ready               Active              
+ssa2oemscwmhadie5k28tb88q *   debianmng           Ready               Active              
+Leader
+
+Eger bu nodlardan birtanesi manager yapmak istiyorsak aşagıdaki komutu kullabilirz.
+sudo docker node promote <HOSTNAME>
+
+Var olan bir manager ı da worker yapmak istiyorsak
+sudo docker node demote <HOSTNAME>
+
+Not Eger sistemde birtane manager varsa onu demote edemeyiz izinvermez .
+
+
+Servisi silmek için 
+#docker service rm web --> web servisin adı.
+
+Servisin sadece worker larda çalışmasını istiyorsak.
+#docker service update --constraint-add='node.role=worker" demo_app --> servisin adı.
+
+
+Aşagıdaki komut label'ı data_node olan service postgresql 9.4 kurmaya çalışıyor eger böyle bir label ismi yoksa askıda kalıyor.
+sudo docker service create --constraint="node.labels.data_node==true" --name=db --publish=5432:5432 postgres:9.4
+
+node'un ismini data_node olarak beliliyoruz böylece yukardaki postgresql de bu node çalışmaya başlıyor.
+sudo docker node update --label-add="data_node=true" debianworker02
+
+Node ların içine bakmak için 
+sudo docker node inspect debianworker02
+            "Labels": {
+                "data_node": "true"
+
+Servisleri oluşturuken limit yada reserv işlemi yapa biliyoruz.
+
+docker service creare --limit-cpu=2 --limit-memory=4G --reserve-memory=8G --name=test nginx:1.10 --> Node 8G ram ulaşana kadar bekliyecek 
+
 
 

@@ -1,0 +1,123 @@
+#IF
+
+S1 ­eq S2 (S1 ve S2 birbirine eşit mi?)
+● S1 ­ne S2 (S1 ve S2 birbirinden farklı mı?)
+● S1 ­qt S2 (S1, S2'den büyük mü?)
+● S1 ­qe S2 (S1, S2'den büyük eşit mi?)
+● S1 ­le S2 (S1, S2'den küçük mü?)
+● S1 ­lt S2 (S1, S2'den küçük eşit mi?)
+­f dosya (dosya dosyası mevcut mu?)
+● ­d dosya (dosya dosyası bir dizin mi?)
+● ­s dosya (dosya dosyası mevcut ve boyutu 0'dan 
+farklı mı?)
+● ­L dosya (dosya sembolik link mi?)
+● ­S dosya (dosya soket mi?)
+
+
+Aritmetik karşılaştırmalar
+-gt  büyük
+-lt  küçük
+-ge  büyük eşit
+-le  küçük eşit
+-eq  eşit
+-ne  eşit değil
+Dizisel karşılaştırma
+-z  boş dizi
+-n  tanımlı dizi
+=   eşit diziler
+!=  farklı diziler
+Dosya karşılaştırması
+-f  dosya var
+-s  dosya boş değil
+-r  dosya okunabilir
+-w  dosyaya yazılabilir
+-x  çalıştırılabilir dosya
+-h  sembolik bağlantı
+-c  karakter aygıt
+-b  blok aygıt
+Mantıksal karşılaştırmalar
+-a  VE
+-o  VEYA
+!   DEĞİL
+if komutunun test ile birlikte kullanılabildiğini daha önce belirtmiştik. Aşağıda bununla ilgili küçük bir örnek yeralıyor.
+#!/bin/bash
+echo "0 ile 20 arasinda bir sayi secin"
+read sec
+if [ $sec -lt 10 ]
+   then
+        echo "Secilen sayi tek basamakli"
+   else
+        echo "Secilen sayi cift basamakli"
+fi
+Her if komutu bir fi ile son bulmalıdır.
+
+
+#CASE
+
+case anahtar-sozcuk in
+        secenek1)
+                komutlar
+                ;;
+        secenek2)
+                komutlar
+                ;;
+        *)
+                komutlar
+                ;;
+esac
+Seçenekler arasında özel karakterler (*, [] , ? gibi) kullanılabilir. Hiçbir eşleme yapılmadığı zaman *) seçeneği değerlendirilecek ve buna bağlı olan komutlar 
+işletilecektir. * kullanımı isteğe bağlıdır. Aşağıda case komutuna ilişkin kısa bir örnek veriliyor.
+#!/bin/bash
+
+clear
+echo    "1. ekrani temizle"
+echo    "2. sistemdekileri goruntule"
+echo    "3. dizindeki dosyalari goster"
+
+echo -n "Secenegi giriniz : "
+read secenek
+
+case $secenek in
+        1)
+          clear
+          ;;
+        2)
+          w
+          ;;
+        3)
+          ls -al
+          ;;
+        *)
+          echo Hatali secenek
+esac
+
+# WHILE DO
+while kosul ifadesi
+   do
+        komutlar
+   done
+if komutuyla birlikte kullanılan test komutu, while döngüsünde koşul ifadesi olarak da yer alabilir. Aşağıda 1'den 100'e kadar sayan ve ekrana basan bir döngü 
+görülüyor.
+#!/bin/bash
+deger=0
+while [ $deger -lt 100 ]
+   do
+        deger=$((deger+1))
+        echo $deger
+   done
+
+ #FOR-DO
+
+for degisken1 in deger1 deger2 ... degerX
+   do
+        komutlar
+   done
+
+Aşağıdaki örnek bu döngüyü kullanarak ekrana bir dizi kelime yazıyor. Döngü boyunca akasya, elma ve visne kelimeleri "agac" değişkenine kopyalanıyor ve her döngüde bu 
+değişkenin içerdiği bilgiler ekrana yazılıyor.
+
+for agac in akasya elma visne
+   do
+        echo $agac
+   done
+
