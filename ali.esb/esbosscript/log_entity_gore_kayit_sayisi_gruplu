@@ -1,5 +1,0 @@
-Log tablosu uzerinde yapılan degisikliklkeri 
-entity bazda saysını veriyor
-
-
-select user_name, count(*) from core_log where snapshot ilike '%entityTypeId":28%' group by user_name having count(*)>0 order by user_name;

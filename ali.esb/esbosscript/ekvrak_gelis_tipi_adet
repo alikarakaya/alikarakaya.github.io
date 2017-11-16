@@ -1,8 +1,0 @@
-select
-(select c.value from core_keyvalue c where c.entity_type_id = 51 and c.ID=ck.ck_09 and status = '1') as evrakgelissekli,count(*) as sayı
-from core_keyvalue ck where ck.ENTITY_TYPE_ID = 5 and ck.ck_05 = 80592 and ck.status = '1'
-and date_04 >='2017-01-01 00:00'
-and date_04<='2017-12-31 24:00'
-GROUP BY ck.ck_09
-HAVING COUNT(ck.ck_09) > 0
-order by ck.ck_09;
